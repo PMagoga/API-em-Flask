@@ -2,3 +2,4 @@ __pycacde__
 .idea
 venv
 instance
+estrutura_banco_de_dados.py

@@ -1,5 +1,8 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, make_response
 from estrutura_banco_de_dados import Postagem, Autor, app, db
+import json
+import jwt
+# rota padrão - GET https://localhost:5000
 
 # app = Flask(__name__)
 
@@ -18,6 +21,17 @@ from estrutura_banco_de_dados import Postagem, Autor, app, db
     }
 ]
  """
+
+@app.route('/login')
+def login():
+    auth = request.authorization
+    if not auth or not auth.username or not auth.password:
+        return make_response('Login inválido', 401,
+                             {'www-Authenticate': 'Basic realm="Login obrigatório"'})
+    usuario = Autor.query.filter_by(nome=auth.username).first()
+    if not usuario:
+        return make_response('Login inválido', 401,
+                             {'www-Authenticate': 'Basic realm="Login obrigatório"'})
 
 @app.route("/")
 def obter_postagem():
